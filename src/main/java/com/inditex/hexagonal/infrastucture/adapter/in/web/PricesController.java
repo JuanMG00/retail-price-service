@@ -7,6 +7,7 @@ import com.inditex.hexagonal.application.service.PricesOutDto;
 import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import java.time.LocalDateTime;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("v1")
+@Log4j2
 public class PricesController {
 
     private final GetPricesUseCase pricesService;
@@ -33,6 +35,9 @@ public class PricesController {
             @Parameter(description = "Product ID", example = "35455")
             @RequestParam @NotNull(message = "productId cannot be null") Integer productId) {
         PricesInDto dto = new PricesInDto(brandId, applicationDate, productId);
-        return ResponseEntity.ok(pricesService.getPricesInfo(dto));
+        log.info("Accessing prices controller");
+        var res = pricesService.getPricesInfo(dto);
+        log.info("Processed controller successfully");
+        return ResponseEntity.ok(res);
     }
 }
