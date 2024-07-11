@@ -1,6 +1,5 @@
-package com.inditex.hexagonal.domain.model.domain;
+package com.inditex.hexagonal.domain.model;
 
-import com.inditex.hexagonal.domain.model.Product;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 

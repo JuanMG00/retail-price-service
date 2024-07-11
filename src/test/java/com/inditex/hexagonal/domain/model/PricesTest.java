@@ -1,9 +1,5 @@
-package com.inditex.hexagonal.domain.model.domain;
+package com.inditex.hexagonal.domain.model;
 
-import com.inditex.hexagonal.domain.model.Brand;
-import com.inditex.hexagonal.domain.model.PriceList;
-import com.inditex.hexagonal.domain.model.Prices;
-import com.inditex.hexagonal.domain.model.Product;
 import com.inditex.hexagonal.domain.model.enums.Currency;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
