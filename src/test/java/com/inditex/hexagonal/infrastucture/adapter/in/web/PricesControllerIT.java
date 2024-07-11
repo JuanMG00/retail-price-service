@@ -146,7 +146,8 @@ class PricesControllerIT {
         ResponseEntity<RestExceptionHandler.ErrorResponse> r = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?applicationDate=%s&brandId=1", port, date),
                 RestExceptionHandler.ErrorResponse.class);
-        Assertions.assertEquals("productId cannot be null", Objects.requireNonNull(r.getBody()).message());
+        Assertions.assertEquals("Required request parameter 'productId' for " +
+                "method parameter type Integer is not present", Objects.requireNonNull(r.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
 
 
@@ -154,15 +155,30 @@ class PricesControllerIT {
         ResponseEntity<RestExceptionHandler.ErrorResponse> r1 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?applicationDate=%s&productId=35455", port, date),
                 RestExceptionHandler.ErrorResponse.class);
-        Assertions.assertEquals("brandId cannot be null", Objects.requireNonNull(r1.getBody()).message());
+        Assertions.assertEquals("Required request parameter 'brandId' for method parameter type " +
+                "Integer is not present", Objects.requireNonNull(r1.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r1.getStatusCode());
 
         // request without applicationDate
         ResponseEntity<RestExceptionHandler.ErrorResponse> r2 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?brandId=1&productId=35455", port),
                 RestExceptionHandler.ErrorResponse.class);
-        Assertions.assertEquals("applicationDate cannot be null", Objects.requireNonNull(r2.getBody()).message());
+        Assertions.assertEquals("Required request parameter 'applicationDate' " +
+                "for method parameter type LocalDateTime is not present", Objects.requireNonNull(r2.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r2.getStatusCode());
+
+        // request witho wrong applicationDate format
+        ResponseEntity<RestExceptionHandler.ErrorResponse> r5 = restTemplate.getForEntity(
+                String.format("http://localhost:%s/v1/prices?applicationDate=%s" +
+                        "&brandId=1&productId=35455", port, date + "abc"),
+                RestExceptionHandler.ErrorResponse.class);
+        Assertions.assertEquals("Failed to convert value of type 'java.lang.String' to required type " +
+                "'java.time.LocalDateTime'; Failed to convert from type [java.lang.String] to type " +
+                "[@io.swagger.v3.oas.annotations.Parameter @org.springframework.web.bind.annotation.RequestParam " +
+                "@jakarta.validation.constraints.NotNull " +
+                "@org.springframework.format.annotation.DateTimeFormat java.time.LocalDateTime] " +
+                "for value [2020-06-16 21:00:00abc]", Objects.requireNonNull(r5.getBody()).message());
+        Assertions.assertEquals(HttpStatus.BAD_REQUEST, r5.getStatusCode());
 
         // request without parameters
         ResponseEntity<RestExceptionHandler.ErrorResponse> r3 = restTemplate.getForEntity(

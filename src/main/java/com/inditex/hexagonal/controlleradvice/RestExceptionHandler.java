@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -14,7 +15,9 @@ import java.util.stream.Collectors;
 
 @ControllerAdvice
 public class RestExceptionHandler {
-
+    
+    private static final String INVALID_ARGUMENT = "Invalid argument";
+    
     @ExceptionHandler(EntityNotFoundException.class)
     public ResponseEntity<ErrorResponse> handleEntityNotFoundException(EntityNotFoundException ex) {
         ErrorResponse errorResponse =
@@ -31,15 +34,25 @@ public class RestExceptionHandler {
         String errorMsg = errors.stream().map(ObjectError::getDefaultMessage).collect(Collectors.joining(", "));
 
         ErrorResponse errorResponse =
-                new ErrorResponse("Invalid argument", errorMsg, HttpStatus.BAD_REQUEST.value());
+                new ErrorResponse(INVALID_ARGUMENT, errorMsg, HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+    public ResponseEntity<ErrorResponse>
+    handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
 
         ErrorResponse errorResponse =
-                new ErrorResponse("Invalid argument", ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+                new ErrorResponse(INVALID_ARGUMENT, ex.getMessage(), HttpStatus.BAD_REQUEST.value());
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class)
+    public ResponseEntity<ErrorResponse>
+    handleMissingServletRequestParameterException(MissingServletRequestParameterException ex) {
+
+        ErrorResponse errorResponse =
+                new ErrorResponse(INVALID_ARGUMENT, ex.getMessage(), HttpStatus.BAD_REQUEST.value());
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
