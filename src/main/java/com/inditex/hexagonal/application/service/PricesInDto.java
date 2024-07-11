@@ -1,4 +1,4 @@
-package com.inditex.hexagonal.service.dto;
+package com.inditex.hexagonal.application.service;
 
 import jakarta.validation.constraints.NotNull;
 

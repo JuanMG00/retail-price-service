@@ -1,19 +1,25 @@
-package com.inditex.hexagonal.domain.model;
+package com.inditex.hexagonal.infrastucture.adapter.out.persistance.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
-@NoArgsConstructor
-@Builder
-@AllArgsConstructor
 @Getter
-public class PriceList {
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+@Table(name = "PRODUCT")
+public class ProductEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
     private Integer id;
+
+    @Column
+    @NotNull
+    private String name;
 }

@@ -1,6 +1,7 @@
 package com.inditex.hexagonal.domain.repository;
 
 
+import com.inditex.hexagonal.application.port.out.PricesRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource(locations = "classpath:application-it.properties")
-class PricesRepositoryIT {
+class PricesEntityRepositoryIT {
 
     @Autowired
     private PricesRepository pricesRepository;

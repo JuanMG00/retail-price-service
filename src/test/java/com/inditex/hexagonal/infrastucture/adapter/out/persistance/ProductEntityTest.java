@@ -1,13 +1,14 @@
-package com.inditex.hexagonal.domain.model;
+package com.inditex.hexagonal.infrastucture.adapter.out.persistance;
 
+import com.inditex.hexagonal.infrastucture.adapter.out.persistance.entity.ProductEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class ProductTest {
+class ProductEntityTest {
 
     @Test
     void testProductEntity() {
-        Product product = Product.builder()
+        ProductEntity product = ProductEntity.builder()
                 .id(1)
                 .name("Example Product")
                 .build();

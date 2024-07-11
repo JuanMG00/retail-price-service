@@ -1,4 +1,4 @@
-package com.inditex.hexagonal.service.dto;
+package com.inditex.hexagonal.application.service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;

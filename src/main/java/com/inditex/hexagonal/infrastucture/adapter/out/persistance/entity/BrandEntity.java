@@ -1,4 +1,4 @@
-package com.inditex.hexagonal.domain.model;
+package com.inditex.hexagonal.infrastucture.adapter.out.persistance.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Brand {
+@Table(name = "BRAND")
+public class BrandEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column

@@ -1,10 +1,8 @@
-package com.inditex.hexagonal.service;
+package com.inditex.hexagonal.application.service;
 
-import com.inditex.hexagonal.domain.model.Prices;
-import com.inditex.hexagonal.domain.repository.PricesRepository;
-import com.inditex.hexagonal.service.dto.PricesInDto;
-import com.inditex.hexagonal.service.dto.PricesOutDto;
-import com.inditex.hexagonal.utils.PriceMapper;
+import com.inditex.hexagonal.application.port.out.PricesRepository;
+import com.inditex.hexagonal.domain.Prices;
+import com.inditex.hexagonal.utils.ApplicationMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,16 +20,16 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-class ProductServiceTest {
+class GetPricesUseCaseTest {
 
     @Mock
     private PricesRepository pricesRepository;
 
     @Mock
-    private PriceMapper mapper;
+    private ApplicationMapper mapper;
 
     @InjectMocks
-    private ProductServiceImpl productService;
+    private PriceServiceImpl getPricesUseCase;
 
     private PricesInDto pricesInDto;
     private Prices price;
@@ -52,17 +50,17 @@ class ProductServiceTest {
         when(pricesRepository.findMatchingPrice(pricesInDto.productId(), pricesInDto.brandId(),
                 pricesInDto.applicationDate()))
                 .thenReturn(Optional.of(price));
-        when(mapper.entityToDto(price)).thenReturn(pricesOutDto);
+        when(mapper.domainToOutDto(price)).thenReturn(pricesOutDto);
 
         // Act
-        PricesOutDto result = productService.getProductInfo(pricesInDto);
+        PricesOutDto result = getPricesUseCase.getPricesInfo(pricesInDto);
 
         // Assert
         assertNotNull(result);
         assertEquals(pricesOutDto, result);
         verify(pricesRepository).findMatchingPrice(pricesInDto.productId(), pricesInDto.brandId(),
                 pricesInDto.applicationDate());
-        verify(mapper).entityToDto(price);
+        verify(mapper).domainToOutDto(price);
     }
 
     @Test
@@ -74,12 +72,12 @@ class ProductServiceTest {
 
         // Act & Assert
         EntityNotFoundException exception = assertThrows(EntityNotFoundException.class, () ->
-                productService.getProductInfo(pricesInDto));
+                getPricesUseCase.getPricesInfo(pricesInDto));
 
         assertEquals(String.format("Error - No price is set for the date %s",
                 pricesInDto.applicationDate()), exception.getMessage());
         verify(pricesRepository).findMatchingPrice(pricesInDto.productId(), pricesInDto.brandId(),
                 pricesInDto.applicationDate());
-        verify(mapper, never()).entityToDto(any(Prices.class));
+        verify(mapper, never()).domainToOutDto(any(Prices.class));
     }
 }

@@ -1,6 +1,6 @@
-package com.inditex.hexagonal.domain.model;
+package com.inditex.hexagonal.infrastucture.adapter.out.persistance.entity;
 
-import com.inditex.hexagonal.domain.model.enums.Currency;
+import com.inditex.hexagonal.infrastucture.adapter.out.persistance.entity.enums.Currency;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -14,7 +14,8 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Prices {
+@Table(name = "PRICES")
+public class PricesEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column
@@ -23,7 +24,7 @@ public class Prices {
     @JoinColumn
     @NotNull
     @ManyToOne
-    private Brand brand;
+    private BrandEntity brand;
 
     @Column
     @NotNull
@@ -35,12 +36,12 @@ public class Prices {
     @JoinColumn(name = "price_list")
     @NotNull
     @ManyToOne
-    private PriceList priceList;
+    private PriceListEntity priceList;
 
     @JoinColumn
     @NotNull
     @ManyToOne
-    private Product product;
+    private ProductEntity product;
 
     @Column
     @NotNull

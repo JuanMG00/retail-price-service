@@ -1,13 +1,14 @@
-package com.inditex.hexagonal.domain.model;
+package com.inditex.hexagonal.infrastucture.adapter.out.persistance;
 
+import com.inditex.hexagonal.infrastucture.adapter.out.persistance.entity.BrandEntity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-class BrandTest {
+class BrandEntityTest {
 
     @Test
     void testBrandEntity() {
-        Brand brand = Brand.builder()
+        BrandEntity brand = BrandEntity.builder()
                 .id(1)
                 .name("Example Brand")
                 .build();
