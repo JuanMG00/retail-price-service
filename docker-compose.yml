@@ -1,0 +1,7 @@
+version: '3.8'
+
+services:
+  retail-price-service:
+    image: radax00/retail-price-service:latest
+    ports:
+      - "8080:8080"
