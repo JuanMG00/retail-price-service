@@ -1,5 +1,6 @@
 package com.inditex.hexagonal.infrastucture.config;
 
+import com.inditex.hexagonal.controlleradvice.InternalErrorException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 
@@ -17,7 +18,7 @@ public class StringToLocalDateTimeConverter implements Converter<String, LocalDa
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             return LocalDateTime.parse(source, formatter);
         } catch (Exception e) {
-            return null;
+            throw new InternalErrorException(String.format("Error. reason: %s", e.getMessage()));
         }
     }
 }
