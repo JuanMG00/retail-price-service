@@ -1,6 +1,6 @@
 package com.inditex.hexagonal.infrastucture.config;
 
-import com.inditex.hexagonal.controlleradvice.InternalErrorException;
+import com.inditex.hexagonal.rest.exception.InternalErrorException;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;
 

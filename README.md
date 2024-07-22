@@ -19,7 +19,6 @@ Acepta como parámetros de entrada: fecha de aplicación, identificador de produ
 - **Testing**:
     - Tests de integración y unitarios para probar la API
     - Tests de integración replican el contexto levantando una instancia H2 de la BBDD de la API apuntando al `application-it.properties`
-    - Fichero `postman_tests.zip` en la raíz del proyecto conteniendo una batería de tests para ejecutar tests E2E (importar en Postman el environment y la colección)
 
 - **Endpoint generado**: `http://localhost:8080/v1/prices`
     - Parámetros obligatorios:

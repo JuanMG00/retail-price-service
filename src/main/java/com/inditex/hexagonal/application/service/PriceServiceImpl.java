@@ -1,10 +1,12 @@
 package com.inditex.hexagonal.application.service;
 
 
-import com.inditex.hexagonal.application.port.in.GetPricesUseCase;
-import com.inditex.hexagonal.application.port.out.PricesRepository;
-import com.inditex.hexagonal.domain.Prices;
-import com.inditex.hexagonal.utils.ApplicationMapper;
+import com.inditex.hexagonal.domain.port.in.GetPricesUseCase;
+import com.inditex.hexagonal.domain.port.out.PricesRepository;
+import com.inditex.hexagonal.domain.model.Prices;
+import com.inditex.hexagonal.rest.dto.PricesInDto;
+import com.inditex.hexagonal.rest.dto.PricesOutDto;
+import com.inditex.hexagonal.application.mappers.ApplicationMapper;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
