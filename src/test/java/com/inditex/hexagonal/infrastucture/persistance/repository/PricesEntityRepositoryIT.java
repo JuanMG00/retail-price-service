@@ -4,6 +4,7 @@ package com.inditex.hexagonal.infrastucture.persistance.repository;
 import com.inditex.hexagonal.domain.model.Prices;
 import com.inditex.hexagonal.domain.port.out.PricesRepository;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,12 +20,14 @@ class PricesEntityRepositoryIT {
     private PricesRepository pricesRepository;
 
     @Test
+    @DisplayName("Test repository find all")
     void testDatabaseRepository_test() {
         var responseList = pricesRepository.findAll();
         Assertions.assertEquals(4, responseList.size());
     }
 
     @Test
+    @DisplayName("Test repository find Matching Price")
     void findMatchingPrice_test() {
         var date = LocalDateTime.parse("2020-06-14T10:00:00");
         var response = pricesRepository.findMatchingPrice(35455, 1, date);

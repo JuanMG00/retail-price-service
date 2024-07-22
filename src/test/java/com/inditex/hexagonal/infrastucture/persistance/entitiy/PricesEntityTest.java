@@ -6,6 +6,7 @@ import com.inditex.hexagonal.infrastucture.persistance.entity.PricesEntity;
 import com.inditex.hexagonal.infrastucture.persistance.entity.ProductEntity;
 import com.inditex.hexagonal.infrastucture.persistance.entity.enums.Currency;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 class PricesEntityTest {
 
     @Test
+    @DisplayName("Test Prices entity")
     void testPricesEntity() {
 
         BrandEntity brand = BrandEntity.builder().id(1).name("Example Brand").build();

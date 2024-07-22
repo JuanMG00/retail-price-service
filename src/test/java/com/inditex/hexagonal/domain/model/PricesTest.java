@@ -1,6 +1,7 @@
 package com.inditex.hexagonal.domain.model;
 
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -9,6 +10,7 @@ import java.time.LocalDateTime;
 class PricesTest {
 
     @Test
+    @DisplayName("Test domain Prices no arguments constructor ")
     void testNoArgsConstructor() {
         Prices prices = new Prices();
 
@@ -24,6 +26,7 @@ class PricesTest {
     }
 
     @Test
+    @DisplayName("Test domain Prices all arguments constructor ")
     void testAllArgsConstructor() {
         LocalDateTime startDate = LocalDateTime.now();
         LocalDateTime endDate = LocalDateTime.now().plusDays(1);
@@ -43,6 +46,7 @@ class PricesTest {
     }
 
     @Test
+    @DisplayName("Test domain Prices builder ")
     void testBuilder() {
         LocalDateTime startDate = LocalDateTime.now();
         LocalDateTime endDate = LocalDateTime.now().plusDays(1);

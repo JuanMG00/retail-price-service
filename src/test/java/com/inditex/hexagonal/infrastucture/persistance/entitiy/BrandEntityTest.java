@@ -2,11 +2,13 @@ package com.inditex.hexagonal.infrastucture.persistance.entitiy;
 
 import com.inditex.hexagonal.infrastucture.persistance.entity.BrandEntity;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class BrandEntityTest {
 
     @Test
+    @DisplayName("Test Brand entity")
     void testBrandEntity() {
         BrandEntity brand = BrandEntity.builder()
                 .id(1)

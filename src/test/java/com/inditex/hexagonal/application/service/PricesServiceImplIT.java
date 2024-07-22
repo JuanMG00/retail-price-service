@@ -5,6 +5,7 @@ import com.inditex.hexagonal.rest.dto.PricesInDto;
 import com.inditex.hexagonal.rest.dto.PricesOutDto;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,6 +26,7 @@ class PricesServiceImplIT {
     private GetPricesUseCase getPricesUseCase;
 
     @Test
+    @DisplayName("get prices info successfully")
     void testGetPricesInfo_ok() {
         PricesInDto in = new PricesInDto(1, LocalDateTime.parse("2020-12-31T23:59:59"), 35455);
         PricesOutDto expectedResult = new PricesOutDto(1, 35455, 4,
@@ -34,6 +36,7 @@ class PricesServiceImplIT {
     }
 
     @Test
+    @DisplayName("don't find a prices")
     void testGetPricesInfo_notFound() {
         PricesInDto in = new PricesInDto(1, LocalDateTime.parse("2024-12-31T23:59:59"), 35455);
         assertThrows(EntityNotFoundException.class, () -> getPricesUseCase.getPricesInfo(in));

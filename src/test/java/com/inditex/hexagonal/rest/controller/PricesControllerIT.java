@@ -1,15 +1,16 @@
 package com.inditex.hexagonal.rest.controller;
 
 
-import com.inditex.hexagonal.rest.dto.PricesOutDto;
-import com.inditex.hexagonal.rest.exception.RestExceptionHandler;
 import com.inditex.hexagonal.infrastucture.persistance.entity.BrandEntity;
 import com.inditex.hexagonal.infrastucture.persistance.entity.PriceListEntity;
 import com.inditex.hexagonal.infrastucture.persistance.entity.PricesEntity;
 import com.inditex.hexagonal.infrastucture.persistance.entity.ProductEntity;
 import com.inditex.hexagonal.infrastucture.persistance.entity.enums.Currency;
 import com.inditex.hexagonal.infrastucture.persistance.repository.SpringDataPricesRepository;
+import com.inditex.hexagonal.rest.dto.PricesOutDto;
+import com.inditex.hexagonal.rest.exception.RestExceptionHandler;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -46,8 +47,8 @@ class PricesControllerIT {
                     BigDecimal.valueOf(35.50).setScale(2, RoundingMode.HALF_UP));
 
 
-    //Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)
     @Test
+    @DisplayName("Test 1: petición a las 10:00 del día 14 del producto 35455   para la brand 1 (ZARA)")
     void testDateRangesCase1_10_00_14() {
         String date = "2020-06-14 10:00:00";
 
@@ -55,8 +56,8 @@ class PricesControllerIT {
         Assertions.assertEquals(expectedPriceList1, response);
     }
 
-    //Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)
     @Test
+    @DisplayName("Test 2: petición a las 16:00 del día 14 del producto 35455   para la brand 1 (ZARA)")
     void testDateRangesCase2_16_00_14() {
         String date = "2020-06-14 16:00:00";
 
@@ -68,8 +69,8 @@ class PricesControllerIT {
         Assertions.assertEquals(expectedResult, response);
     }
 
-    //Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)
     @Test
+    @DisplayName("Test 3: petición a las 21:00 del día 14 del producto 35455   para la brand 1 (ZARA)")
     void testDateRangesCase3_21_00_14() {
         String date = "2020-06-14 21:00:00";
 
@@ -77,8 +78,8 @@ class PricesControllerIT {
         Assertions.assertEquals(expectedPriceList1, response);
     }
 
-    //Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)
     @Test
+    @DisplayName("Test 4: petición a las 10:00 del día 15 del producto 35455   para la brand 1 (ZARA)")
     void testDateRangesCase4_10_00_15() {
         String date = "2020-06-15 10:00:00";
         PricesOutDto expectedResult =
@@ -89,8 +90,8 @@ class PricesControllerIT {
         Assertions.assertEquals(expectedResult, response);
     }
 
-    //Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
     @Test
+    @DisplayName("Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)")
     void testDateRangesCase5_21_00_16() {
         String date = "2020-06-16 21:00:00";
         PricesOutDto expectedResult =
@@ -102,6 +103,7 @@ class PricesControllerIT {
     }
 
     @Test
+    @DisplayName("Test the highest priority")
     void testHighestPriority() {
 
         // set start date and end date with same value for all prices
@@ -143,9 +145,9 @@ class PricesControllerIT {
 
     }
 
-    //Test 5: petición a las 21:00 del día 16 del producto 35455   para la brand 1 (ZARA)
     @Test
-    void testControllerInputs() {
+    @DisplayName("Test request without product id")
+    void testRequestWithoutProductId() {
         String date = "2020-06-16 21:00:00";
         // request without product id
         ResponseEntity<RestExceptionHandler.ErrorResponse> r = restTemplate.getForEntity(
@@ -154,8 +156,12 @@ class PricesControllerIT {
         Assertions.assertEquals("Required request parameter 'productId' for " +
                 "method parameter type Integer is not present", Objects.requireNonNull(r.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
+    }
 
-
+    @Test
+    @DisplayName("Test request without brand id")
+    void testRequestWithoutBrandId() {
+        String date = "2020-06-16 21:00:00";
         // request without brand id
         ResponseEntity<RestExceptionHandler.ErrorResponse> r1 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?applicationDate=%s&productId=35455", port, date),
@@ -163,16 +169,25 @@ class PricesControllerIT {
         Assertions.assertEquals("Required request parameter 'brandId' for method parameter type " +
                 "Integer is not present", Objects.requireNonNull(r1.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r1.getStatusCode());
+    }
 
-        // request without applicationDate
+    @Test
+    @DisplayName("Test request without application date")
+    void testRequestWithoutApplicationDate() {
+
         ResponseEntity<RestExceptionHandler.ErrorResponse> r2 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?brandId=1&productId=35455", port),
                 RestExceptionHandler.ErrorResponse.class);
         Assertions.assertEquals("Required request parameter 'applicationDate' " +
                 "for method parameter type LocalDateTime is not present", Objects.requireNonNull(r2.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r2.getStatusCode());
+    }
 
-        // request witho wrong applicationDate format
+    @Test
+    @DisplayName("Test request with wrong application date format")
+    void testWithWrongApplicationDateFormat() {
+        String date = "2020-06-16 21:00:00";
+
         ResponseEntity<RestExceptionHandler.ErrorResponse> r5 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?applicationDate=%s" +
                         "&brandId=1&productId=35455", port, date + "abc"),
@@ -184,21 +199,29 @@ class PricesControllerIT {
                 "@org.springframework.format.annotation.DateTimeFormat java.time.LocalDateTime] " +
                 "for value [2020-06-16 21:00:00abc]", Objects.requireNonNull(r5.getBody()).message());
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r5.getStatusCode());
+    }
 
-        // request without parameters
+    @Test
+    @DisplayName("Test request without parameters")
+    void testWithoutInputParameters() {
+
         ResponseEntity<RestExceptionHandler.ErrorResponse> r3 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices", port),
                 RestExceptionHandler.ErrorResponse.class);
         Assertions.assertEquals(HttpStatus.BAD_REQUEST, r3.getStatusCode());
+    }
 
-        // request with no result
+    @Test
+    @DisplayName("Test request with no response")
+    void testRequestWithNoResponse() {
+        String date = "2020-06-16 21:00:00";
+
         ResponseEntity<RestExceptionHandler.ErrorResponse> r4 = restTemplate.getForEntity(
                 String.format("http://localhost:%s/v1/prices?applicationDate=%s&brandId=1&productId=354551", port, date),
                 RestExceptionHandler.ErrorResponse.class);
         Assertions.assertEquals("Error - No price is set for the date 2020-06-16T21:00",
                 Objects.requireNonNull(r4.getBody()).message());
-        Assertions.assertEquals(HttpStatus.BAD_REQUEST, r.getStatusCode());
-
+        Assertions.assertEquals(HttpStatus.NOT_FOUND, r4.getStatusCode());
     }
 
 

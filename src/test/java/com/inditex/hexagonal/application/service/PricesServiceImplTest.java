@@ -7,6 +7,7 @@ import com.inditex.hexagonal.rest.dto.PricesOutDto;
 import com.inditex.hexagonal.application.mappers.ApplicationMapper;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -47,6 +48,7 @@ class PricesServiceImplTest {
     }
 
     @Test
+    @DisplayName("get prices successfully")
     void testGetProductInfo_Success() {
         // Arrange
         when(pricesRepository.findMatchingPrice(pricesInDto.productId(), pricesInDto.brandId(),
@@ -66,6 +68,7 @@ class PricesServiceImplTest {
     }
 
     @Test
+    @DisplayName("get prices failure")
     void testGetProductInfo_Failure() {
         // Arrange
         when(pricesRepository.findMatchingPrice(pricesInDto.productId(), pricesInDto.brandId(),
